@@ -1,33 +1,30 @@
-const addBookForm = document.getElementById('add-book-form');
-
 const libraryStorage = [];
-// Book object constructor
-function Book(title, author, pages, hasRead) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.hasRead = null;
-    this.displayHasRead = function () {
-        if (hasRead === 0) { return `Has not read` }
-        else if (hasRead === 1) { return `Has read` }
-        else { return 'ERROR' }
-    }
-    this.displayed = false;
-};
-/////////////////////////////////////////////////////////
-// Push book to library
-function addBookToLibrary(book) {
-    libraryStorage.push(book);
-};
-
-// Fake test books for testing
-for (let i = 0; i < 10; i++) {
-    addBookToLibrary(new Book(`Title${i}`, `Author${i}`, `42${i - i}`))
-}
-/////////////////////////////////////////////////////////
-const bookList = document.getElementById('book-list');
-console.log(libraryStorage)
-
+const card = document.getElementById('edit-book');
+card.innerHTML = `<form id="edit-book-form" method="dialog">
+<fieldset>
+    <legend>Edit Book</legend>
+        <div>
+            <label for="edit-title">Update Title:</label>
+            <input  type="text" name="edit-title" id="edit-title" placeholder="">
+        </div>
+        <div>
+            <label for="edit-author">Update Author:</label>
+            <input  type="text" name="edit-author" id="edit-author" placeholder="">
+        </div>
+        <div>
+            <label for="edit-pages">Update Pages:</label>
+            <input type="number" name="edit-pages" id="edit-pages" placeholder="">
+        </div>
+        <div>
+            <label for="hasRead">Check if you have read the book:</label>
+            <input type="checkbox" name="editHasRead" id="editHasRead">
+        </div>
+</fieldset>
+</form>
+<div id="form-buttons">
+<button id="edit-book-button">Update</button>
+<button id="cancel-edit">Cancel</button>
+</div>`
 // Display books in libraryStorage on screen
 function displayBooks() {
     libraryStorage.forEach((book) => {
@@ -84,6 +81,34 @@ function displayBooks() {
         }
     });
 };
+const addBookForm = document.getElementById('add-book-form');
+const bookList = document.getElementById('book-list');
+
+// Book object constructor
+function Book(title, author, pages, hasRead) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.hasRead = null;
+    this.displayHasRead = function () {
+        if (hasRead === 0) { return `Has not read` }
+        else if (hasRead === 1) { return `Has read` }
+        else { return 'ERROR' }
+    }
+    this.displayed = false;
+};
+/////////////////////////////////////////////////////////
+// Push book to library
+function addBookToLibrary(book) {
+    libraryStorage.push(book);
+};
+
+// Fake test books for testing
+for (let i = 0; i < 10; i++) {
+    addBookToLibrary(new Book(`Title${i}`, `Author${i}`, `42${i - i}`))
+}
+/////////////////////////////////////////////////////////
+
 
 /////////////////////////////////////////////////////////
 //// Add Book Form Inputs
@@ -113,7 +138,7 @@ addBookBtn.addEventListener('click', () => {
 
 
 const modalBtn = document.getElementById('open-modal');
-const modalCloseBtn = document.getElementById('close');
+const modalCloseButtons = document.getElementsByClassName('close');
 const dialog = document.getElementById('add-book-dialog')
 
 function dialogOpenCheck() {
@@ -125,97 +150,78 @@ modalBtn.addEventListener('click', () => {
     dialog.showModal()
     dialogOpenCheck();
 })
-modalCloseBtn.addEventListener('click', () => {
-    dialog.close()
-    dialogOpenCheck()
-})
 
+for (let i = 0; i < modalCloseButtons.length; i++) {
+    button = modalCloseButtons[i];
+    button.addEventListener('click', () => {
+        dialog.close()
+        dialogOpenCheck()
+    })
 
-// cardForm.appendChild(legend);
-
-
-// cardTitleLabel.setAttribute('for', 'cardTitle')
-// cardForm.appendChild(cardTitleLabel)
-// cardForm.appendChild(cardTitle)
-
-
-
-const card = document.getElementById('edit-book');
-card.innerHTML = `<form id="edit-book-form" method="dialog">
-<fieldset>
-    <legend>Edit Book</legend>
-        <div>
-            <label for="edit-title">Update Title:</label>
-            <input  type="text" name="edit-title" id="edit-title" placeholder="">
-        </div>
-        <div>
-            <label for="edit-author">Update Author:</label>
-            <input  type="text" name="edit-author" id="edit-author" placeholder="">
-        </div>
-        <div>
-            <label for="edit-pages">Update Pages:</label>
-            <input type="number" name="edit-pages" id="edit-pages" placeholder="">
-        </div>
-        <div>
-            <label for="hasRead">Check if you have read the book:</label>
-            <input type="checkbox" name="editHasRead" id="editHasRead">
-        </div>
-</fieldset>
-</form>
-<div id="form-buttons">
-<button id="edit-book-button">Update</button>
-<button id="cancel-edit">Cancel</button>
-</div>`
+}
 
 const editBookForm = document.getElementById('edit-book-form')
 const clickableCards = document.getElementsByClassName('card-anchor');
 function editCards() {
     for (let i = 0; i < clickableCards.length; i++) {
         clickableCards[i].addEventListener('click', () => {
-            // cardLegend.innerHTML = `Edit ${clickableCards[i].id}:`
-            // cardTitle.placeholder = `${clickableCards[i].id}`
+            const book = libraryStorage[i];
+            book.displayed = false;
             const editTitle = document.getElementById('edit-title')
-            editTitle.value = `${libraryStorage[i].title}`
+            editTitle.value = `${book.title}`
             const editAuthor = document.getElementById('edit-author')
-            editAuthor.value = `${libraryStorage[i].author}`
+            editAuthor.value = `${book.author}`
             const editPages = document.getElementById('edit-pages')
-            editPages.value = `${libraryStorage[i].pages}`
+            editPages.value = `${book.pages}`
             card.showModal()
             console.log(clickableCards[i]);
 
 
             const updateBookBtn = document.getElementById('edit-book-button');
             updateBookBtn.addEventListener('click', () => {
-                card.close()
                 // Input values
-                let headerTitleSpan = document.getElementById(`${libraryStorage[i].title}-header-title`)
-                let headerAuthorSpan = document.getElementById(`${libraryStorage[i].title}-header-author`)
-                let infoTitle = document.getElementById(`${libraryStorage[i].title}-info-title`)
-                let infoAuthor = document.getElementById(`${libraryStorage[i].title}-info-author`)
-                let infoPages = document.getElementById(`${libraryStorage[i].title}-info-pages`)
-                let infoHasRead = document.getElementById(`${libraryStorage[i].title}-info-has-read`)
+                let listingHeader = document.getElementById(`${book.title}-header`);
+                let headerTitleSpan = document.getElementById(`${book.title}-header-title`);
+                let headerAuthorSpan = document.getElementById(`${book.title}-header-author`);
+                let infoTitle = document.getElementById(`${book.title}-info-title`);
+                let infoAuthor = document.getElementById(`${book.title}-info-author`);
+                let infoPages = document.getElementById(`${book.title}-info-pages`);
+                let infoHasRead = document.getElementById(`${book.title}-info-has-read`);
 
+                // Input fields
                 let editTitleInput = document.getElementById('edit-title').value;
                 let editAuthorInput = document.getElementById('edit-author').value;
                 let editPagesInput = document.getElementById('edit-pages').value;
-                let editHasReadInput = document.getElementById('editHasRead')
+                let editHasReadInput = document.getElementById('editHasRead');
 
                 if (editTitleInput !== '') {
-                    libraryStorage[i].title = editTitleInput;
-                    headerTitleSpan.innerHTML = `${editTitleInput}`
-                    infoTitle.innerHTML = `Title: ${editTitleInput}`
+                    // Change IDs
+                    book.title = `${editTitleInput}`;
+                    headerTitleSpan.id = `${editTitleInput}-header-title`;
+                    headerAuthorSpan.id = `${editTitleInput}-header-author`;
+                    listingHeader.id = `${editTitleInput}-header`;
+                    infoTitle.id = `${editTitleInput}-info-title`;
+                    infoAuthor.id = `${editTitleInput}-info-author`;
+                    infoPages.id = `${editTitleInput}-info-pages`;
+                    infoHasRead.id = `${editTitleInput}-info-has-read`;
+
+                    infoTitle.innerHTML = `Title: ${editTitleInput}`;
+                    headerTitleSpan.innerHTML = `${editTitleInput}`;
                 }
                 if (editAuthorInput !== '') {
+                    book.author = editAuthorInput;
                     infoAuthor.innerHTML = `Author: ${editAuthorInput}`;
-                    headerAuthorSpan.innerHTML = `${editAuthorInput}`
+                    headerAuthorSpan.innerHTML = `${editAuthorInput}`;
                 }
                 if (editPagesInput !== '') {
-                    infoPages.innerHTML = `Pages: ${editPagesInput}`
+                    book.pages = editPagesInput;
+                    infoPages.innerHTML = `Pages: ${editPagesInput}`;
                 }
-                if (editHasReadInput.checked) { infoHasRead.innerHTML = `Read status: Has Read` }
-                else { infoHasRead.innerHTML = `Read status: Has not read` }
-                console.log('yipp')
-                editBookForm.reset()
+                if (editHasReadInput.checked) { book.hasRead = 1; infoHasRead.innerHTML = `Has read` }
+                else { book.hasRead = 0; infoHasRead.innerHTML = `Has not read` };
+                console.log('yipp');
+                editBookForm.reset();
+                card.close();;
             });
         })
     }
