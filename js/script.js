@@ -164,9 +164,11 @@ const editBookForm = document.getElementById('edit-book-form')
 const clickableCards = document.getElementsByClassName('card-anchor');
 function editCards() {
     for (let i = 0; i < clickableCards.length; i++) {
-        clickableCards[i].addEventListener('click', () => {
+        const clickCard = clickableCards[i];
+        clickCard.addEventListener('click', () => {
             const book = libraryStorage[i];
             book.displayed = false;
+
             const editTitle = document.getElementById('edit-title')
             editTitle.value = `${book.title}`
             const editAuthor = document.getElementById('edit-author')
@@ -174,8 +176,6 @@ function editCards() {
             const editPages = document.getElementById('edit-pages')
             editPages.value = `${book.pages}`
             card.showModal()
-            console.log(clickableCards[i]);
-
 
             const updateBookBtn = document.getElementById('edit-book-button');
             updateBookBtn.addEventListener('click', () => {
