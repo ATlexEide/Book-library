@@ -140,3 +140,7 @@ dialog {
     aspect-ratio: 16/9;
     height: 30px;
 }
+
+.card-anchor:hover {
+    opacity: .8;
+}
