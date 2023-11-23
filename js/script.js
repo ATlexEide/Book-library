@@ -5,9 +5,8 @@ function Book(title, author, pages, hasRead) {
     this.pages = pages;
     this.hasRead = false;
     this.displayHasRead = function () {
-        if (hasRead === true) { return `Has not read` }
-        else if (hasRead === false) { return `Has read` }
-        else { return 'ERROR' }
+        if (hasRead === true) { return `Has read` }
+        else if (hasRead === false) { return `Has not read` }
     }
     this.displayed = false;
 };
@@ -45,10 +44,12 @@ editDialog.innerHTML = `<form id="edit-book-form" method="dialog">
 <div id="form-buttons">
 <button id="edit-book-button">Update</button>
 <button id="cancel-edit">Cancel</button>
+<button id="delete">Delete</button>
 </div>`
 
 
 // Display books in libraryStorage on screen
+const bookList = document.getElementById('book-list');
 function displayBooks() {
     for (let i = 0; i < libraryStorage.length; i++) {
         const book = libraryStorage[i];
@@ -56,7 +57,6 @@ function displayBooks() {
             book.displayed = true;
             // Add Book Card
             const anchor = document.createElement('a');
-            if (book.title === '') { book.title = undefined; }
             anchor.setAttribute('onclick', `showUpdateModal(${i})`)
             anchor.setAttribute('id', `${i}`)
             anchor.setAttribute('class', 'card-anchor');
@@ -108,15 +108,14 @@ function displayBooks() {
 };
 
 
-const bookList = document.getElementById('book-list');
 const addBookForm = document.getElementById('add-book-form');
 
 
 
-// Fake test books for testing
-for (let i = 0; i < 10; i++) {
-    addBookToLibrary(new Book(`Title${i}`, `Author${i}`, `42${i - i}`))
-}
+// // Fake test books for testing
+// for (let i = 0; i < 10; i++) {
+//     addBookToLibrary(new Book(`Title${i}`, `Author${i}`, `42${i - i}`))
+// }
 
 
 /////////////////////////////////////////////////////////
@@ -126,12 +125,13 @@ for (let i = 0; i < 10; i++) {
 const titleInput = document.getElementById('title');
 const authorInput = document.getElementById('author');
 const pagesInput = document.getElementById('pages');
-let hasReadInput = document.getElementById('hasRead');
+let hasReadInput = document.getElementById('has-read');
 /////////////////////////////////////////////////////////
 // Buttons
 const addBookBtn = document.getElementById('add-book');
-const modalBtn = document.getElementById('open-modal');
 const modalCloseButton = document.getElementById('close');
+const deleteBtn = document.getElementById('delete')
+const modalBtn = document.getElementById('open-modal');
 const cancelEditBtn = document.getElementById('cancel-edit');
 const dialog = document.getElementById('add-book-dialog')
 /////////////////////////////////////////////////////////
@@ -143,9 +143,24 @@ const clickableCards = document.getElementsByClassName('card-anchor');
 
 // Add book button
 addBookBtn.addEventListener('click', () => {
+    if (titleInput.value === '') {
+        titleInput.setCustomValidity('Please enter the title');
+        titleInput.reportValidity(); return
+    }
+    titleInput.setCustomValidity('');
+    if (authorInput.value === '') {
+        authorInput.setCustomValidity('Please enter the name of the author');
+        authorInput.reportValidity(); return
+    }
+    authorInput.setCustomValidity('');
+    if (pagesInput.value === '' || pagesInput.value < 1) {
+        pagesInput.setCustomValidity('Please enter the amount of pages');
+        pagesInput.reportValidity(); return
+    }
+    pagesInput.setCustomValidity('');
     if (hasReadInput.checked) { hasRead = true }
     else { hasRead = false };
-    libraryStorage.push(new Book(titleInput.value, authorInput.value, pagesInput.value));
+    libraryStorage.push(new Book(titleInput.value, authorInput.value, pagesInput.value, hasRead));
 
     displayBooks();
     dialog.close();
@@ -167,17 +182,14 @@ cancelEditBtn.addEventListener('click', () => {
     editDialog.close()
     editBookForm.reset()
 })
+
 function closeCard() {
     editDialog.close()
     editBookForm.reset()
 };
 /////////////////////////////////////////////////////////
 // Edit Book info logic
-function showUpdateModal(index) {
-    console.log(index)
-    editDialog.showModal()
-    applyChanges(index)
-};
+
 function applyChanges(index) {
     const book = libraryStorage[index];
     // Input Fields
@@ -202,25 +214,38 @@ function applyChanges(index) {
         // Header
         cardHeader = document.getElementById(`${index}-header-title`);
         cardHeaderTitle = document.getElementById(`${index}-header-title`);
-        cardHeaderAuthor = document.getElementById(`${index}-header-author`);
         // Change Header Text
         cardHeader.innerHTML = `${editTitleInput.value}`;
         cardHeaderTitle.innerHTML = `${editTitleInput.value}`;
-        cardHeaderAuthor.innerHTML = `${editAuthorInput.value}`;
         // Info
         title.innerHTML = `Title: ${editTitleInput.value}`;
-        author.innerHTML = `Author: ${editAuthorInput.value}`;
-        pages.innerHTML = `Pages: ${editPagesInput.value}`;
         if (editHasReadInput.checked) { book.hasRead = true }
         if (book.hasRead) { hasRead.innerHTML = `Read status: Has Read` }
         if (!book.hasRead) { hasRead.innerHTML = `Read status: Not Read` }
+        book.author = editAuthorInput.value;
+        cardHeaderAuthor = document.getElementById(`${index}-header-author`);
+        cardHeaderAuthor.innerHTML = `${editAuthorInput.value}`;
+        author.innerHTML = `Author: ${editAuthorInput.value}`;
+        book.pages = editPagesInput.value;
+        pages.innerHTML = `Pages: ${editPagesInput.value}`;
 
         closeCard();
         index = null;
-    })
+    });
+
+};
+
+function showUpdateModal(index) {
+    deleteBtn.addEventListener('click', () => {
+        libraryStorage.splice(libraryStorage.indexOf(index), 1);
+        document.getElementById(index).remove();
+        closeCard();
+    });
+    console.log(index)
+    applyChanges(index)
+    editDialog.showModal()
+};
 
 
-}
-
-
-displayBooks()
+displayBooks();
+alert('This project is not finished');
