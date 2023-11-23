@@ -249,4 +249,4 @@ function showUpdateModal(index) {
 
 
 displayBooks();
-// alert('This project is not finished');
+alert('This project is not finished');
