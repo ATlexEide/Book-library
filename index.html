@@ -18,15 +18,15 @@
                 <legend>Add Book</legend>
                     <div>
                         <label for="title">Title:</label>
-                        <input  type="text" name="title" id="title" placeholder="Title">
+                        <input  type="text" name="title" id="title" placeholder="Title" required value="testTitle">
                     </div>
                     <div>
                         <label for="author">Author:</label>
-                        <input  type="text" name="author" id="author" placeholder="Author">
+                        <input  type="text" name="author" id="author" placeholder="Author" required value="testAuthor">
                     </div>
                     <div>
                         <label for="pages">Pages:</label>
-                        <input type="number" name="pages" id="pages" placeholder="Pages">
+                        <input type="number" name="pages" id="pages" placeholder="Pages" required value="69">
                     </div>
                     <div>
                         <label for="hasRead">Check if you have read the book:</label>
@@ -36,7 +36,7 @@
         </form>
         <div id="form-buttons">
             <button id="add-book">Add</button>
-            <button class="close">Close</button>
+            <button id="close">Close</button>
         </div>
     </dialog>
     <!-- Temporarily open -->
