@@ -162,6 +162,7 @@ addBookBtn.addEventListener('click', () => {
     else { hasRead = false };
     libraryStorage.push(new Book(titleInput.value, authorInput.value, pagesInput.value, hasRead));
 
+    addBookForm.reset();
     displayBooks();
     dialog.close();
     console.log('yipp');
@@ -184,8 +185,8 @@ cancelEditBtn.addEventListener('click', () => {
 })
 
 function closeCard() {
-    editDialog.close()
     editBookForm.reset()
+    editDialog.close()
 };
 /////////////////////////////////////////////////////////
 // Edit Book info logic
@@ -248,4 +249,4 @@ function showUpdateModal(index) {
 
 
 displayBooks();
-alert('This project is not finished');
+// alert('This project is not finished');
