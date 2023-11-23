@@ -8,42 +8,47 @@
     <script src="./js/script.js" defer></script>
 </head>
 <body>
-    <h1>Library</h1>
-    <div id="book-list"></div>
-    <button id="open-modal">Add book</button>
-
-    <dialog id="add-book-dialog">
-        <form id="add-book-form" method="dialog">
-            <fieldset>
-                <legend>Add Book</legend>
-                    <div>
-                        <label for="title">Title:</label>
-                        <input  type="text" name="title" id="title" placeholder="Title" required value="testTitle">
-                    </div>
-                    <div>
-                        <label for="author">Author:</label>
-                        <input  type="text" name="author" id="author" placeholder="Author" required value="testAuthor">
-                    </div>
-                    <div>
-                        <label for="pages">Pages:</label>
-                        <input type="number" name="pages" id="pages" placeholder="Pages" required value="69">
-                    </div>
-                    <div>
-                        <label for="hasRead">Check if you have read the book:</label>
-                        <input type="checkbox" name="hasRead" id="hasRead">
-                    </div>
-            </fieldset>
-        </form>
-        <div id="form-buttons">
-            <button id="add-book">Add</button>
-            <button id="delete">Delete</button>
-            <button id="close">Close</button>
+    <div id="container">
+        <header>
+            <img src="./img/logo.png" alt="">
+            <h1>Evil Space Library</h1>
+            <button id="open-modal">Add book</button>
+        </header>
+        <div id="book-container">
+            <div id="book-list"></div>
         </div>
-    </dialog>
-    <!-- Temporarily open -->
-    <dialog id="edit-book" >
-    <!-- Temporarily open -->
-        <form id="edit-book-form" method="dialog""></form>
-    </dialog>
+        <dialog id="add-book-dialog">
+            <form id="add-book-form" method="dialog">
+                <fieldset>
+                    <legend>Add Book</legend>
+                        <div>
+                            <label for="title">Title:</label>
+                            <input  type="text" name="title" id="title" placeholder="Title" required>
+                        </div>
+                        <div>
+                            <label for="author">Author:</label>
+                            <input  type="text" name="author" id="author" placeholder="Author" required>
+                        </div>
+                        <div>
+                            <label for="pages">Pages:</label>
+                            <input type="number" name="pages" id="pages" placeholder="Pages" required>
+                        </div>
+                        <div>
+                            <label for="hasRead">Check if you have read the book:</label>
+                            <input type="checkbox" name="has-read" id="has-read">
+                        </div>
+                </fieldset>
+            </form>
+            <div id="form-buttons">
+                <button id="add-book">Add</button>
+                <button id="close">Close</button>
+            </div>
+        </dialog>
+        <!-- Temporarily open -->
+        <dialog id="edit-book" >
+        <!-- Temporarily open -->
+            <form id="edit-book-form" method="dialog""></form>
+        </dialog>
+    </div>
 </body>
 </html>
