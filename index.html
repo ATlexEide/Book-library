@@ -9,46 +9,72 @@
 </head>
 <body>
     <div id="container">
-        <header>
+        <header id="main-header">
             <img src="./img/logo.png" alt="">
             <h1>Evil Space Library</h1>
-            <button id="open-modal">Add book</button>
+            <button id="open-add-book-form-button">Add book</button>
         </header>
-        <div id="book-container">
+        <div id="book-list-container">
             <div id="book-list"></div>
         </div>
-        <dialog id="add-book-dialog">
+        <!-- Add form -->
+        <dialog id="add-book-form-dialog">
             <form id="add-book-form" method="dialog">
                 <fieldset>
                     <legend>Add Book</legend>
                         <div>
-                            <label for="title">Title:</label>
-                            <input  type="text" name="title" id="title" placeholder="Title" required>
+                            <label for="add-book-title-input">Title:</label>
+                            <input  type="text" name="add-book-title-input" id="add-book-title-input" placeholder="add-book-title-input" required value="test">
                         </div>
                         <div>
-                            <label for="author">Author:</label>
-                            <input  type="text" name="author" id="author" placeholder="Author" required>
+                            <label for="add-book-author-input">Author:</label>
+                            <input  type="text" name="add-book-author-input" id="add-book-author-input" placeholder="add-book-author-input" required value="test">
                         </div>
                         <div>
-                            <label for="pages">Pages:</label>
-                            <input type="number" name="pages" id="pages" placeholder="Pages" required>
+                            <label for="add-book-pages-input">Pages:</label>
+                            <input type="number" name="add-book-pages-input" id="add-book-pages-input" placeholder="add-book-pages-input" required value="1">
                         </div>
                         <div>
-                            <label for="hasRead">Check if you have read the book:</label>
-                            <input type="checkbox" name="has-read" id="has-read">
+                            <label for="add-book-has-read-input">Check if you have read the book:</label>
+                            <input type="checkbox" name="add-book-has-read-input" id="add-book-has-read-input">
                         </div>
                 </fieldset>
+                <div id="form-buttons">
+                    <button id="add-book-button">Add</button>
+                    <button id="close-form-button">Close</button>
+                </div>
             </form>
+        </dialog>
+
+        <!-- Edit form -->
+        <dialog id="edit-book-form-dialog" >
+                <form id="edit-book-form" method="dialog">
+                        <fieldset>
+                                <legend>Edit Book</legend>
+                                <div>
+                                        <label for="edit-title-input">Update Title:</label>
+                                        <input  type="text" name="edit-title-input" id="edit-title-input" placeholder="">
+                                </div>
+                                <div>
+                                        <label for="edit-author-input">Update Author:</label>
+                                        <input  type="text" name="edit-author-input" id="edit-author-input" placeholder="">
+                                </div>
+                                <div>
+                                        <label for="edit-pages-input">Update Pages:</label>
+                                        <input type="number" name="edit-pages-input" id="edit-pages-input" placeholder="">
+                                </div>
+                                <div>
+                                        <label for="edit-has-read-input">Check if you have read the book:</label>
+                                        <input type="checkbox" name="edit-has-read-input" id="edit-has-read-input">
+                                </div>
+            </fieldset>
             <div id="form-buttons">
-                <button id="add-book">Add</button>
-                <button id="close">Close</button>
-            </div>
-        </dialog>
-        <!-- Temporarily open -->
-        <dialog id="edit-book" >
-        <!-- Temporarily open -->
-            <form id="edit-book-form" method="dialog""></form>
-        </dialog>
+                    <button id="apply-edits-button">Apply</button>
+                    <button id="cancel-edits-button">Cancel</button>
+                    <button id="delete-book-button">Delete</button>
+                </div>
+        </form>
+</dialog>
     </div>
 </body>
 </html>
