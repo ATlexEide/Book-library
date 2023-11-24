@@ -1,252 +1,140 @@
+// Storage
+let storage = [];
+
 // Book object constructor
 function Book(title, author, pages, hasRead) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.hasRead = false;
-    this.displayHasRead = function () {
-        if (hasRead === true) { return `Has read` }
-        else if (hasRead === false) { return `Has not read` }
-    }
-    this.displayed = false;
-};
-
-// Push book to library
-function addBookToLibrary(book) {
-    libraryStorage.push(book);
-};
-
-
-
-const libraryStorage = [];
-const editDialog = document.getElementById('edit-book');
-editDialog.innerHTML = `<form id="edit-book-form" method="dialog">
-<fieldset>
-    <legend>Edit Book</legend>
-        <div>
-            <label for="edit-title">Update Title:</label>
-            <input  type="text" name="edit-title" id="edit-title" placeholder="">
-        </div>
-        <div>
-            <label for="edit-author">Update Author:</label>
-            <input  type="text" name="edit-author" id="edit-author" placeholder="">
-        </div>
-        <div>
-            <label for="edit-pages">Update Pages:</label>
-            <input type="number" name="edit-pages" id="edit-pages" placeholder="">
-        </div>
-        <div>
-            <label for="hasRead">Check if you have read the book:</label>
-            <input type="checkbox" name="edit-has-read" id="edit-has-read">
-        </div>
-</fieldset>
-</form>
-<div id="form-buttons">
-<button id="edit-book-button">Update</button>
-<button id="cancel-edit">Cancel</button>
-<button id="delete">Delete</button>
-</div>`
-
-
-// Display books in libraryStorage on screen
-const bookList = document.getElementById('book-list');
-function displayBooks() {
-    for (let i = 0; i < libraryStorage.length; i++) {
-        const book = libraryStorage[i];
-        if (!book.displayed) {
-            book.displayed = true;
-            // Add Book Card
-            const anchor = document.createElement('a');
-            anchor.setAttribute('onclick', `showUpdateModal(${i})`)
-            anchor.setAttribute('id', `${i}`)
-            anchor.setAttribute('class', 'card-anchor');
-
-
-            const newBook = document.createElement('div');
-            newBook.setAttribute('class', 'book-listing');
-            // Add header to card
-            const bookTitle = document.createElement('h2');
-            bookTitle.setAttribute('id', `${i}-header`)
-            bookTitle.innerHTML = `<span id="${i}-header-title">${book.title}</span> <br>by <span id="${i}-header-author">${book.author}</span>`;
-            newBook.appendChild(bookTitle);
-            // Add list element to card
-            const div = document.createElement('div');
-            div.setAttribute('class', 'book-info-div');
-            div.innerHTML = `<h3>Info:</h3>`
-            const bookInfoList = document.createElement('ul');
-            // Add Info to list
-            const title = document.createElement('li');
-            title.setAttribute('class', 'book-info-title');
-            title.setAttribute('id', `${i}-info-title`);
-            title.innerHTML = `Title: ${book.title}`
-            bookInfoList.appendChild(title);
-
-            const author = document.createElement('li');
-            author.setAttribute('class', 'book-info-author');
-            author.setAttribute('id', `${i}-info-author`);
-            author.innerHTML = `Author: ${book.author}`
-            bookInfoList.appendChild(author);
-
-            const pages = document.createElement('li');
-            pages.setAttribute('class', 'book-info-pages');
-            pages.setAttribute('id', `${i}-info-pages`);
-            pages.innerHTML = `Pages: ${book.pages}`
-            bookInfoList.appendChild(pages);
-
-            const hasRead = document.createElement('li');
-            hasRead.setAttribute('class', 'book-info-has-read');
-            hasRead.setAttribute('id', `${i}-info-has-read`);
-            hasRead.innerHTML = `Read status: ${book.displayHasRead()}`
-            // Append Stuff
-            bookInfoList.appendChild(hasRead);
-            div.appendChild(bookInfoList);
-            newBook.appendChild(div);
-            anchor.appendChild(newBook);
-            bookList.appendChild(anchor);
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.hasRead = hasRead;
+        this.returnHasRead = function () {
+                if (this.hasRead) { return 'Yes' }
+                else { return 'No' }
         }
-    };
 };
 
-
-const addBookForm = document.getElementById('add-book-form');
-
-
-
-// // Fake test books for testing
-// for (let i = 0; i < 10; i++) {
-//     addBookToLibrary(new Book(`Title${i}`, `Author${i}`, `42${i - i}`))
-// }
-
-
-/////////////////////////////////////////////////////////
-// Add books
-/////////////////////////////////////////////////////////
-//// Add Book Form Inputs
-const titleInput = document.getElementById('title');
-const authorInput = document.getElementById('author');
-const pagesInput = document.getElementById('pages');
-let hasReadInput = document.getElementById('has-read');
-/////////////////////////////////////////////////////////
+// Add a Book to Storage
+function addBookToStorage(book) {
+        storage.push(book);
+};
 // Buttons
-const addBookBtn = document.getElementById('add-book');
-const modalCloseButton = document.getElementById('close');
-const deleteBtn = document.getElementById('delete')
-const modalBtn = document.getElementById('open-modal');
-const cancelEditBtn = document.getElementById('cancel-edit');
-const dialog = document.getElementById('add-book-dialog')
-/////////////////////////////////////////////////////////
-// Misc
-const editBookForm = document.getElementById('edit-book-form')
-const clickableCards = document.getElementsByClassName('card-anchor');
+//// Main Buttons
+const openAddBookFormBtn = document.getElementById('open-add-book-form-button');
+//// Form Buttons
+const addBookBtn = document.getElementById('add-book-button');
+const closeFormBtn = document.getElementById('close-form-button');
+const applyEditsBtn = document.getElementById('apply-edits-button');
+const cancelEditBtn = document.getElementById('cancel-edits-button');
+const deleteBookBtn = document.getElementById('delete-book-button');
 
-/////////////////////////////////////////////////////////
+// HTML Elements
+//// Book list
+const bookList = document.getElementById('book-list');
+//// Forms
+const addBookForm = document.getElementById('add-book-form');
+const editBookForm = document.getElementById('edit-book-form');
+////Dialogs
+const addBookDialog = document.getElementById('add-book-form-dialog');
+const editBookDialog = document.getElementById('edit-book-form-dialog');
 
-// Add book button
+// Inputs
+//// Add Book Form Inputs
+const addBookTitleInput = document.getElementById('add-book-title-input');
+const addBookAuthorInput = document.getElementById('add-book-author-input');
+const addBookPagesInput = document.getElementById('add-book-pages-input');
+const addBookHasReadInput = document.getElementById('add-book-has-read-input');
+//// Edit Book Form Inputs
+const editBookTitleInput = document.getElementById('edit-title-input');
+const editBookAuthorInput = document.getElementById('edit-author-input');
+const editBookPagesInput = document.getElementById('edit-pages-input');
+const editBookHasReadInput = document.getElementById('edit-has-read-input');
+
+// Open Add Book Form
+openAddBookFormBtn.addEventListener('click', () => {
+        addBookDialog.showModal();
+});
+
+// Add New Book to Storage
 addBookBtn.addEventListener('click', () => {
-    if (titleInput.value === '') {
-        titleInput.setCustomValidity('Please enter the title');
-        titleInput.reportValidity(); return
-    }
-    titleInput.setCustomValidity('');
-    if (authorInput.value === '') {
-        authorInput.setCustomValidity('Please enter the name of the author');
-        authorInput.reportValidity(); return
-    }
-    authorInput.setCustomValidity('');
-    if (pagesInput.value === '' || pagesInput.value < 1) {
-        pagesInput.setCustomValidity('Please enter the amount of pages');
-        pagesInput.reportValidity(); return
-    }
-    pagesInput.setCustomValidity('');
-    if (hasReadInput.checked) { hasRead = true }
-    else { hasRead = false };
-    libraryStorage.push(new Book(titleInput.value, authorInput.value, pagesInput.value, hasRead));
-
-    addBookForm.reset();
-    displayBooks();
-    dialog.close();
-    console.log('yipp');
-    console.table(libraryStorage);
+        hasReadValue = false
+        if (addBookHasReadInput.checked) { hasReadValue = true }
+        addBookToStorage(new Book(addBookTitleInput.value, addBookAuthorInput.value, addBookPagesInput.value, hasReadValue))
+        console.table(storage);
+        bookList.innerHTML = '';
+        display();
+        addBookForm.reset();
 });
-// Show/Open modal
-modalBtn.addEventListener('click', () => {
-    dialog.showModal()
-});
-// Close form button logic
-modalCloseButton.addEventListener('click', () => {
-    editBookForm.reset();
-    addBookForm.reset();
-    dialog.close();
-});
-// Cancel edit button
-cancelEditBtn.addEventListener('click', () => {
-    editDialog.close()
-    editBookForm.reset()
-})
 
-function closeCard() {
-    editBookForm.reset()
-    editDialog.close()
-};
-/////////////////////////////////////////////////////////
-// Edit Book info logic
+// Display Storage as Cards
+function display() {
+        // Empty Book List to avoid multiples
+        bookList.innerHTML = '';
+        // Add New Card
+        for (let i = 0; i < storage.length; i++) {
+                let currentBook = storage[i]
+                const newCard = document.createElement('a');
+                newCard.setAttribute('id', `${i}`);
+                newCard.setAttribute('class', `card`);
+                newCard.innerHTML = `
+                <h2>${currentBook.title} <br>by ${currentBook.author}</h2>
+                <ul>
+                <li>Title: ${currentBook.title}</li>
+                <li>Author: ${currentBook.author}</li>
+                <li>Pages: ${currentBook.pages}</li>
+                <li>Has Read: ${currentBook.returnHasRead()}</li>
+                </ul>`;
+                bookList.appendChild(newCard);
 
-function applyChanges(index) {
-    const book = libraryStorage[index];
-    // Input Fields
-    let editTitleInput = document.getElementById('edit-title');
-    let editAuthorInput = document.getElementById('edit-author');
-    let editPagesInput = document.getElementById('edit-pages');
-    let editHasReadInput = document.getElementById('edit-has-read')
-    // Info 
-    title = document.getElementById(`${index}-info-title`)
-    author = document.getElementById(`${index}-info-author`)
-    pages = document.getElementById(`${index}-info-pages`)
-    hasRead = document.getElementById(`${index}-info-has-read`)
-    const updateBtn = document.getElementById('edit-book-button');
-
-    // Default Form Values on open
-    editTitleInput.value = book.title;
-    editAuthorInput.value = book.author;
-    editPagesInput.value = book.pages;
-    // Update innerHTML
-    updateBtn.addEventListener('click', () => {
-        book.title = editTitleInput.value;
-        // Header
-        cardHeader = document.getElementById(`${index}-header-title`);
-        cardHeaderTitle = document.getElementById(`${index}-header-title`);
-        // Change Header Text
-        cardHeader.innerHTML = `${editTitleInput.value}`;
-        cardHeaderTitle.innerHTML = `${editTitleInput.value}`;
-        // Info
-        title.innerHTML = `Title: ${editTitleInput.value}`;
-        if (editHasReadInput.checked) { book.hasRead = true }
-        if (book.hasRead) { hasRead.innerHTML = `Read status: Has Read` }
-        if (!book.hasRead) { hasRead.innerHTML = `Read status: Not Read` }
-        book.author = editAuthorInput.value;
-        cardHeaderAuthor = document.getElementById(`${index}-header-author`);
-        cardHeaderAuthor.innerHTML = `${editAuthorInput.value}`;
-        author.innerHTML = `Author: ${editAuthorInput.value}`;
-        book.pages = editPagesInput.value;
-        pages.innerHTML = `Pages: ${editPagesInput.value}`;
-
-        closeCard();
-        index = null;
-    });
+        };
+        // addEventListener()
+        editClickedCard()
 
 };
+function addEventListener() {
+        cards = document.getElementsByClassName('card');
+        for (let i = 0; i < cards.length; i++) {
+                cards[i].addEventListener('click', () => {
+                        ___()
+                })
+        }
+}
 
-function showUpdateModal(index) {
-    deleteBtn.addEventListener('click', () => {
-        libraryStorage.splice(libraryStorage.indexOf(index), 1);
-        document.getElementById(index).remove();
-        closeCard();
-    });
-    console.log(index)
-    applyChanges(index)
-    editDialog.showModal()
-};
+function editClickedCard() {
+        const cards = document.getElementsByClassName('card');
+        const cardPressed = e => {
+                index = e.target.id;  // Get ID of Clicked Element
+                editBookDialog.showModal()
+                editBookTitleInput.value = storage[index].title
+                editBookAuthorInput.value = storage[index].author
+                editBookPagesInput.value = storage[index].pages
+                editBookHasReadInput.value = storage[index].pages
+                applyEditsBtn.addEventListener('click', () => {
+                        if (editBookTitleInput.value !== storage[index].title) { storage[index].title = editBookTitleInput.value }
+                        if (editBookAuthorInput.value !== storage[index].author) { storage[index].author = editBookAuthorInput.value }
+                        if (editBookPagesInput.value !== storage[index].pages) { storage[index].pages = editBookPagesInput.value }
+                        if (editBookHasReadInput.checked) { storage[index].hasRead = true }
 
+                        display()
+                        console.clear()
+                        console.table(storage)
+                        // editBookForm.reset()
+                })
 
-displayBooks();
-alert('This project is not finished');
+        }
+        for (let card of cards) {
+                card.addEventListener("click", cardPressed);
+        }
+}
+
+function deleteClickedCard() {
+        const cards = document.getElementsByClassName('card');
+        const cardPressed = e => {
+                index = e.target.id;  // Get ID of Clicked Element
+                deleteBookBtn.addEventListener('click', () => {
+                        storage.splice(index, 1)
+                })
+        }
+        for (let card of cards) {
+                card.addEventListener("click", cardPressed);
+        }
+}
