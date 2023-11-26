@@ -75,7 +75,6 @@ function display() {
                 newCard.setAttribute('id', `${i}`);
                 newCard.setAttribute('class', `card`);
                 newCard.innerHTML = `
-
                 <h2>${currentBook.title} <br>by ${currentBook.author}</h2>
                 <ul>
                 <li>Title: ${currentBook.title}</li>
@@ -93,7 +92,7 @@ let currIndex = null;
 function getIndexOfClickedCardAndOpenModal() {
         const cards = document.getElementsByClassName('card');
         const cardPressed = e => {
-                index = e.target.id;  // Get ID of Clicked Element
+                index = e.currentTarget.id;  // Get ID of Clicked Element
                 currIndex = index
                 showModalOnClick(currIndex)
         }
