@@ -146,6 +146,21 @@ function applyEdits(index) {
         display();
 };
 applyEditsBtn.addEventListener('click', () => {
+        if (editBookTitleInput.value === '') {
+                editBookTitleInput.setCustomValidity('Please enter a title');
+                editBookTitleInput.reportValidity(); return
+        }
+        editBookTitleInput.setCustomValidity('');
+        if (editBookAuthorInput.value === '') {
+                editBookAuthorInput.setCustomValidity('Please enter a name');
+                editBookAuthorInput.reportValidity(); return
+        }
+        editBookAuthorInput.setCustomValidity('');
+        if (editBookPagesInput.value === '' || editBookPagesInput.value < 1 || editBookPagesInput.value > 50000) {
+                editBookPagesInput.setCustomValidity('Please enter a number from 1 to 50000');
+                editBookPagesInput.reportValidity(); return
+        }
+        editBookPagesInput.setCustomValidity('');
         applyEdits(currIndex);
 });
 function deleteBook(index) {
