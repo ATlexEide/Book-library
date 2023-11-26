@@ -72,11 +72,11 @@ addBookBtn.addEventListener('click', () => {
                 addBookPagesInput.reportValidity(); return
         }
         addBookPagesInput.setCustomValidity('');
-        if (hasReadInput.checked) { hasRead = true }
-        else { hasRead = false };
+        if (addBookHasReadInput.checked) { hasRead = true }
         addBookToStorage(new Book(addBookTitleInput.value, addBookAuthorInput.value, addBookPagesInput.value, hasReadValue))
         bookList.innerHTML = '';
         display();
+        addBookDialog.close();
         addBookForm.reset();
 });
 
@@ -166,6 +166,7 @@ applyEditsBtn.addEventListener('click', () => {
 function deleteBook(index) {
         console.log(`Deleted ${storage[index].title}`);
         storage.splice(index, 1);
+        editBookDialog.close();
         display();
 };
 deleteBookBtn.addEventListener('click', () => {
