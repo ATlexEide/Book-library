@@ -80,7 +80,11 @@ addBookBtn.addEventListener('click', () => {
         addBookForm.reset();
 });
 
-
+closeFormBtn.addEventListener('click', () => {
+        event.preventDefault();
+        addBookForm.reset();
+        addBookDialog.close();
+})
 // Display Storage as Cards
 function display() {
         // Empty Book List to avoid multiples
