@@ -57,6 +57,23 @@ openAddBookFormBtn.addEventListener('click', () => {
 addBookBtn.addEventListener('click', () => {
         hasReadValue = false;
         if (addBookHasReadInput.checked) { hasReadValue = true }
+        if (addBookTitleInput.value === '') {
+                addBookTitleInput.setCustomValidity('Please enter a title');
+                addBookTitleInput.reportValidity(); return
+        }
+        addBookTitleInput.setCustomValidity('');
+        if (addBookAuthorInput.value === '') {
+                addBookAuthorInput.setCustomValidity('Please enter a name');
+                addBookAuthorInput.reportValidity(); return
+        }
+        addBookAuthorInput.setCustomValidity('');
+        if (addBookPagesInput.value === '' || addBookPagesInput.value < 1 || addBookPagesInput.value > 50000) {
+                addBookPagesInput.setCustomValidity('Please enter a number from 1 to 50000');
+                addBookPagesInput.reportValidity(); return
+        }
+        addBookPagesInput.setCustomValidity('');
+        if (hasReadInput.checked) { hasRead = true }
+        else { hasRead = false };
         addBookToStorage(new Book(addBookTitleInput.value, addBookAuthorInput.value, addBookPagesInput.value, hasReadValue))
         bookList.innerHTML = '';
         display();
