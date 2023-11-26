@@ -108,14 +108,15 @@ function showModalOnClick(index) {
         editBookTitleInput.value = storage[index].title;
         editBookAuthorInput.value = storage[index].author;
         editBookPagesInput.value = storage[index].pages;
-        editBookHasReadInput.value = storage[index].pages;
+        if (storage[index].hasRead) { editBookHasReadInput.checked = true }
+        else { editBookHasReadInput.checked = false }
 };
 
 function applyEdits(index) {
         if (editBookTitleInput.value !== storage[index].title) { storage[index].title = editBookTitleInput.value };
         if (editBookAuthorInput.value !== storage[index].author) { storage[index].author = editBookAuthorInput.value };
         if (editBookPagesInput.value !== storage[index].pages) { storage[index].pages = editBookPagesInput.value };
-        if (editBookHasReadInput.checked) { storage[index].hasRead = true };
+        if (editBookHasReadInput.checked) { storage[index].hasRead = true } else { storage[index].hasRead = false };
         display();
 };
 applyEditsBtn.addEventListener('click', () => {
@@ -137,7 +138,7 @@ deleteBookBtn.addEventListener('click', () => {
 for (let i = 0; i < 10; i++) {
         titles = ['OMG, a book', 'Look a book', 'How to understand women', 'How to sleep', 'Help i overslept', 'JS for babies', 'How i ruined my dev career', 'Kebab', 'The beautiful land of CSS', 'My little blue haired man']
         authors = ['Maya', 'Mila', 'Griffin', 'Alex', 'Alex', 'Griffin', 'Giraffe', 'Daniel', 'No one', 'Maya']
-        addBookToStorage(new Book(titles[i], authors[i], 69, 0))
+        addBookToStorage(new Book(titles[i], authors[i], 69, false))
 
 }
 display()
