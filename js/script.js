@@ -84,7 +84,12 @@ closeFormBtn.addEventListener('click', () => {
         event.preventDefault();
         addBookForm.reset();
         addBookDialog.close();
-})
+});
+cancelEditBtn.addEventListener('click', () => {
+        event.preventDefault();
+        editBookForm.reset();
+        editBookDialog.close();
+});
 // Display Storage as Cards
 function display() {
         // Empty Book List to avoid multiples
