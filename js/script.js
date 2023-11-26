@@ -70,11 +70,12 @@ function display() {
         bookList.innerHTML = '';
         // Add New Card
         for (let i = 0; i < storage.length; i++) {
-                let currentBook = storage[i]
+                let currentBook = storage[i];
                 const newCard = document.createElement('a');
                 newCard.setAttribute('id', `${i}`);
                 newCard.setAttribute('class', `card`);
                 newCard.innerHTML = `
+
                 <h2>${currentBook.title} <br>by ${currentBook.author}</h2>
                 <ul>
                 <li>Title: ${currentBook.title}</li>
@@ -85,7 +86,7 @@ function display() {
                 bookList.appendChild(newCard);
 
         };
-        getIndexOfClickedCardAndOpenModal()
+        getIndexOfClickedCardAndOpenModal();
 };
 
 let currIndex = null;

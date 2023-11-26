@@ -97,9 +97,11 @@ h1 {
     border-radius: 15px;
 }
 
+
 a ul {
     margin-top: auto;
 }
+
 
 #open-add-book-form-button {
     place-self: center;
@@ -194,6 +196,6 @@ dialog {
     width: 75px;
 }
 
-.card-anchor:hover {
+a:hover {
     opacity: .8;
 }
