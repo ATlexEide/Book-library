@@ -1,6 +1,5 @@
 // Storage
 let storage = [];
-
 // Book object constructor
 function Book(title, author, pages, hasRead) {
         this.title = title;
@@ -56,14 +55,14 @@ openAddBookFormBtn.addEventListener('click', () => {
 
 // Add New Book to Storage
 addBookBtn.addEventListener('click', () => {
-        hasReadValue = false
+        hasReadValue = false;
         if (addBookHasReadInput.checked) { hasReadValue = true }
         addBookToStorage(new Book(addBookTitleInput.value, addBookAuthorInput.value, addBookPagesInput.value, hasReadValue))
-        console.table(storage);
         bookList.innerHTML = '';
         display();
         addBookForm.reset();
 });
+
 
 // Display Storage as Cards
 function display() {
@@ -86,55 +85,59 @@ function display() {
                 bookList.appendChild(newCard);
 
         };
-        // addEventListener()
-        editClickedCard()
-
+        getIndexOfClickedCardAndOpenModal()
 };
-function addEventListener() {
-        cards = document.getElementsByClassName('card');
-        for (let i = 0; i < cards.length; i++) {
-                cards[i].addEventListener('click', () => {
-                        ___()
-                })
-        }
-}
 
-function editClickedCard() {
+let currIndex = null;
+function getIndexOfClickedCardAndOpenModal() {
         const cards = document.getElementsByClassName('card');
         const cardPressed = e => {
                 index = e.target.id;  // Get ID of Clicked Element
-                editBookDialog.showModal()
-                editBookTitleInput.value = storage[index].title
-                editBookAuthorInput.value = storage[index].author
-                editBookPagesInput.value = storage[index].pages
-                editBookHasReadInput.value = storage[index].pages
-                applyEditsBtn.addEventListener('click', () => {
-                        if (editBookTitleInput.value !== storage[index].title) { storage[index].title = editBookTitleInput.value }
-                        if (editBookAuthorInput.value !== storage[index].author) { storage[index].author = editBookAuthorInput.value }
-                        if (editBookPagesInput.value !== storage[index].pages) { storage[index].pages = editBookPagesInput.value }
-                        if (editBookHasReadInput.checked) { storage[index].hasRead = true }
-
-                        display()
-                        console.clear()
-                        console.table(storage)
-                        // editBookForm.reset()
-                })
-
+                currIndex = index
+                showModalOnClick(currIndex)
         }
         for (let card of cards) {
                 card.addEventListener("click", cardPressed);
         }
-}
+};
 
-function deleteClickedCard() {
-        const cards = document.getElementsByClassName('card');
-        const cardPressed = e => {
-                index = e.target.id;  // Get ID of Clicked Element
-                deleteBookBtn.addEventListener('click', () => {
-                        storage.splice(index, 1)
-                })
-        }
-        for (let card of cards) {
-                card.addEventListener("click", cardPressed);
-        }
+
+
+function showModalOnClick(index) {
+        editBookDialog.showModal();
+        editBookTitleInput.value = storage[index].title;
+        editBookAuthorInput.value = storage[index].author;
+        editBookPagesInput.value = storage[index].pages;
+        editBookHasReadInput.value = storage[index].pages;
+};
+
+function applyEdits(index) {
+        if (editBookTitleInput.value !== storage[index].title) { storage[index].title = editBookTitleInput.value };
+        if (editBookAuthorInput.value !== storage[index].author) { storage[index].author = editBookAuthorInput.value };
+        if (editBookPagesInput.value !== storage[index].pages) { storage[index].pages = editBookPagesInput.value };
+        if (editBookHasReadInput.checked) { storage[index].hasRead = true };
+        display();
+};
+applyEditsBtn.addEventListener('click', () => {
+        applyEdits(currIndex);
+});
+function deleteBook(index) {
+        console.log(`Deleted ${storage[index].title}`);
+        storage.splice(index, 1);
+        display();
+};
+deleteBookBtn.addEventListener('click', () => {
+        deleteBook(currIndex);
+});
+
+
+
+
+// Fake books for testing
+for (let i = 0; i < 10; i++) {
+        titles = ['OMG, a book', 'Look a book', 'How to understand women', 'How to sleep', 'Help i overslept', 'JS for babies', 'How i ruined my dev career', 'Kebab', 'The beautiful land of CSS', 'My little blue haired man']
+        authors = ['Maya', 'Mila', 'Griffin', 'Alex', 'Alex', 'Griffin', 'Giraffe', 'Daniel', 'No one', 'Maya']
+        addBookToStorage(new Book(titles[i], authors[i], 69, 0))
+
 }
+display()
