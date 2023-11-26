@@ -16,9 +16,19 @@
 }
 
 #book-list-container {
+    grid-column: 2 / 3;
+    grid-row: 2 / -1;
+
     display: grid;
     grid-template-columns: 200px 1fr 200px;
     grid-template-rows: 100px 1fr;
+
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    gap: 10px;
+    flex-basis: auto;
 }
 
 #main-header {
@@ -57,17 +67,7 @@ h1 {
     text-decoration: underline silver;
 }
 
-#book-list-container {
-    grid-column: 2 / 3;
-    grid-row: 2 / -1;
 
-    padding: 30px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    gap: 10px;
-    flex-basis: auto;
-}
 
 #book-list {
 
@@ -91,7 +91,7 @@ h1 {
 
     padding: 2rem;
     background-color: rgb(255, 255, 255);
-    width: 200px;
+    width: 224px;
     height: 300px;
 
     border-radius: 15px;
