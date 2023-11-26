@@ -173,9 +173,9 @@ dialog {
     padding: 10px;
 }
 
-#add-book-form div>label[for="hasRead"],
-#edit-book-form div>label[for="hasRead"] {
-    width: 200px;
+#add-book-form div>label[for="add-book-has-read-input"],
+#edit-book-form div>label[for="edit-has-read-input"] {
+    width: 100px;
     font-size: .75rem;
 }
 
