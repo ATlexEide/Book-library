@@ -1,14 +1,16 @@
 // Storage
 let storage = [];
 // Book object constructor
-function Book(title, author, pages, hasRead) {
-        this.title = title;
-        this.author = author;
-        this.pages = pages;
-        this.hasRead = hasRead;
-        this.returnHasRead = function () {
-                if (this.hasRead) { return 'Yes' }
-                else { return 'No' }
+class Book {
+        constructor(title, author, pages, hasRead) {
+                this.title = title;
+                this.author = author;
+                this.pages = pages;
+                this.hasRead = hasRead;
+                this.returnHasRead = function () {
+                        if (this.hasRead) { return 'Yes' }
+                        else { return 'No' }
+                }
         }
 };
 
