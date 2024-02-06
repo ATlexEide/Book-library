@@ -2,15 +2,18 @@
 let storage = [];
 // Book object constructor
 class Book {
-        constructor(title, author, pages, hasRead) {
+        constructor(title, author, pages, hasReadInitValue) {
                 this.title = title;
                 this.author = author;
                 this.pages = pages;
-                this.hasRead = hasRead;
-                this.returnHasRead = function () {
-                        if (this.hasRead) { return 'Yes' }
-                        else { return 'No' }
-                }
+                this._hasRead = hasReadInitValue;
+        }
+        get hasRead() {
+                if (this._hasRead) { return 'Yes' };
+                if (!this._hasRead) { return 'No' };
+        }
+        set hasRead(value) {
+                this._hasRead = value;
         }
 };
 
@@ -108,7 +111,7 @@ function display() {
                 <li>Title: ${currentBook.title}</li>
                 <li>Author: ${currentBook.author}</li>
                 <li>Pages: ${currentBook.pages}</li>
-                <li>Has Read: ${currentBook.returnHasRead()}</li>
+                <li>Has Read: ${currentBook.hasRead}</li>
                 </ul>`;
                 bookList.appendChild(newCard);
 
@@ -136,7 +139,7 @@ function showModalOnClick(index) {
         editBookTitleInput.value = storage[index].title;
         editBookAuthorInput.value = storage[index].author;
         editBookPagesInput.value = storage[index].pages;
-        if (storage[index].hasRead) { editBookHasReadInput.checked = true }
+        if (storage[index]._hasRead) { editBookHasReadInput.checked = true }
         else { editBookHasReadInput.checked = false }
 };
 
