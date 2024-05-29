@@ -184,7 +184,7 @@ deleteBookBtn.addEventListener('click', () => {
 // Fake books for testing
 for (let i = 0; i < 10; i++) {
         titles = ['OMG, a book', 'Look a book', 'How to understand women', 'How to sleep', 'Help i overslept', 'JS for babies', 'How i ruined my dev career', 'Kebab', 'The beautiful land of CSS', 'My little blue haired man']
-        authors = ['Maya', 'Mila', 'Griffin', 'Alex', 'Alex', 'Griffin', 'Giraffe', 'Daniel', 'No one', 'Maya']
+        authors = ['Amanda', 'Mila', 'Griffin', 'Alex', 'Alex', 'Griffin', 'Giraffe', 'Daniel', 'No one', 'Amanda']
         addBookToStorage(new Book(titles[i], authors[i], 69, false))
 
 }
