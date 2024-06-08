@@ -169,7 +169,6 @@ applyEditsBtn.addEventListener('click', () => {
         applyEdits(currIndex);
 });
 function deleteBook(index) {
-        console.log(`Deleted ${storage[index].title}`);
         storage.splice(index, 1);
         editBookDialog.close();
         display();
